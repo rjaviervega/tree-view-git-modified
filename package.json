@@ -1,0 +1,16 @@
+{
+  "name": "tree-view-git-modified",
+  "main": "./lib/tree-view-git-modified",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "activationCommands": {
+    "atom-workspace": "tree-view-git-modified:toggle"
+  },
+  "repository": "https://github.com/atom/tree-view-git-modified",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}
