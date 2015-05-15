@@ -9,3 +9,4 @@
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
 'atom-workspace':
   'ctrl-alt-o': 'tree-view-git-modified:toggle'
+  'ctrl-cmd-o': 'tree-view-git-modified:openAll'

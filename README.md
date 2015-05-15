@@ -1,5 +1,18 @@
 # tree-view-git-modified package
 
-A short description of your package.
+Shows a list of git modified files on top of the tree-view for easy access. Opens all git modified files at once with a simple command.
 
-![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+## Usage:
+
+'ctrl-alt-o': 'tree-view-git-modified:toggle' // Shows or hides panel
+'ctrl-cmd-o': 'tree-view-git-modified:openAll' // Open all git modified files
+
+![A screenshot of your package](https://)
+
+## TODO
+
+- Include option to customize background color of selected items on tree-view.
+- Include icons to show git statuses and icons to quickly add/remove from git index.
+- Add additional test cases.
+
+## License MIT.
