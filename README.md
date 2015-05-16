@@ -13,7 +13,7 @@ This plugin was developed by using code samples from the following atom plugins:
 'ctrl-cmd-o': 'tree-view-git-modified:openAll' // Open all git modified files
 ```
 
-![A screenshot of your package](https://github.com/rjaviervega/tree-view-git-modified/blob/master/screenshots/tree-view-git-modified.png)
+![A screenshot of your package](https://raw.githubusercontent.com/rjaviervega/tree-view-git-modified/master/screenshots/tree-view-git-modified.png)
 
 ## TODO
 
