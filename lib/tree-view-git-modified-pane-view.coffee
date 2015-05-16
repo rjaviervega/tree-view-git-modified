@@ -41,8 +41,10 @@ class TreeViewOpenFilesPaneView
 
     # TODO: Use getRepositories to support Atom 2.0 when available
     repo = atom.project.getRepo()
-    repo.onDidChangeStatuses => self.reloadStatuses self, repo
-    repo.onDidChangeStatus (item) => self.reloadStatuses self, repo
+
+    if (repo)
+      repo.onDidChangeStatuses => self.reloadStatuses self, repo
+      repo.onDidChangeStatus (item) => self.reloadStatuses self, repo
 
   reloadStatuses: (self, repo) ->
     if repo?
@@ -105,7 +107,7 @@ class TreeViewOpenFilesPaneView
 
   entryForItem: (item) ->
     _.detect @items, (entry) ->
-      if item.buffer
+      if item.buffer && item.buffer.file
         item.buffer.file.path.indexOf(entry.item) > -1
 
   entryForElement: (item) ->

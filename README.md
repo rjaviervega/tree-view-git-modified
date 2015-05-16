@@ -15,6 +15,10 @@ This plugin was developed by using code samples from the following atom plugins:
 
 ![A screenshot of your package](https://raw.githubusercontent.com/rjaviervega/tree-view-git-modified/master/screenshots/tree-view-git-modified.png)
 
+## ISSUES
+
+- After adding a new git project folder on a black workspace Git Modified tab won't pick up the changes until Atom is reloaded
+
 ## TODO
 
 - Include option to customize background color of selected items on tree-view.
