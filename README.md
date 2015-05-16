@@ -2,12 +2,18 @@
 
 Shows a list of git modified files on top of the tree-view for easy access. Opens all git modified files at once with a simple command.
 
+This plugin was developed by using code samples from the following atom plugins:
+- tree-view-open-files
+- open-git-modified-files
+
 ## Usage:
 
+```
 'ctrl-alt-o': 'tree-view-git-modified:toggle' // Shows or hides panel
 'ctrl-cmd-o': 'tree-view-git-modified:openAll' // Open all git modified files
+```
 
-![A screenshot of your package](https://)
+![A screenshot of your package](https://github.com/rjaviervega/tree-view-git-modified/blob/master/screenshots/tree-view-git-modified.png)
 
 ## TODO
 
