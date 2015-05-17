@@ -16,8 +16,8 @@ class TreeViewGitModifiedView
     @treeViewGitModifiedPaneView = new TreeViewGitModifiedPaneView
     @element.appendChild @treeViewGitModifiedPaneView.element
 
-    @paneSub.add atom.project.onDidChangePaths (path) =>
-      @treeViewGitModifiedPaneView.loadRepo()
+    # @paneSub.add atom.project.onDidChangePaths (path) =>
+    #   @treeViewGitModifiedPaneView.loadRepo()
 
     @paneSub.add atom.workspace.observePanes (pane) =>
       @treeViewGitModifiedPaneView.setPane pane
@@ -49,6 +49,7 @@ class TreeViewGitModifiedView
     @element.remove()
 
   show: ->
+    @treeViewGitModifiedPaneView.loadRepo()
     requirePackages('tree-view').then ([treeView]) =>
       treeView.treeView.find('.tree-view-scroller').css 'background', treeView.treeView.find('.tree-view').css 'background'
       treeView.treeView.prepend @element

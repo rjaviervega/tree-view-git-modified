@@ -45,13 +45,28 @@ class TreeViewOpenFilesPaneView
   loadRepo: =>
     # TODO: Use getRepositories to support Atom 2.0 when available
     self = this
-    @repo = atom.project.getRepo()
-    console.log @repo, 'reloaded repo'
-    if (@repo)
-      @repo.onDidChangeStatuses => self.reloadStatuses self, @repo
-      @repo.onDidChangeStatus (item) => self.reloadStatuses self, @repo
-    else
-      @removeAll()
+    Promise.all(atom.project.getDirectories().map(
+      atom.project.repositoryForDirectory.bind(atom.project))).then (repos) ->
+        if (repos.length > 0)
+          self.repo = repos[0]
+          if (self.repo)
+            if self.repo.emitter
+              self.repo.onDidChangeStatuses =>
+                self.reloadStatuses self, self.repo
+                , (err) ->
+                  console.log err
+            if self.repo.emitter
+              self.repo.onDidChangeStatus (item) =>
+                self.reloadStatuses self, self.repo
+                , (err) ->
+                  console.log err
+          else
+            self.removeAll()
+        else
+          self.removeAll()
+      , (err) ->
+        console.log err
+
 
 
   reloadStatuses: (self, repo) ->

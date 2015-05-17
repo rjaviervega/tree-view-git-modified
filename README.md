@@ -19,6 +19,7 @@ This plugin was developed by using code samples from the following atom plugins:
 
 - This package doesn't work well when the package tree-view-git-projects is installed.
 - This package doesn't work with multiple projects folders added to the workspace.
+- Known bug, if a project folder is removed from the tree and then added again in the same session the list of modified files will not be refresh until Atom is restarted (looks like a bug on Atom related to adding a project folder after it is removed).
 
 ## TODO
 
