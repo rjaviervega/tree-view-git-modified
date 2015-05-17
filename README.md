@@ -17,7 +17,6 @@ This plugin was developed by using code samples from the following atom plugins:
 
 ## Issues
 
-- After adding a new git project folder on a black workspace Git Modified tab won't pick up the changes until Atom is reloaded
 
 ## TODO
 
