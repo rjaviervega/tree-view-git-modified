@@ -6,7 +6,7 @@ This plugin was developed by using code samples from the following atom plugins:
 - tree-view-open-files
 - open-git-modified-files
 
-## Usage:
+## Usage
 
 ```
 'ctrl-alt-o': 'tree-view-git-modified:toggle' // Shows or hides panel
@@ -15,7 +15,7 @@ This plugin was developed by using code samples from the following atom plugins:
 
 ![A screenshot of your package](https://raw.githubusercontent.com/rjaviervega/tree-view-git-modified/master/screenshots/tree-view-git-modified.png)
 
-## ISSUES
+## Issues
 
 - After adding a new git project folder on a black workspace Git Modified tab won't pick up the changes until Atom is reloaded
 
