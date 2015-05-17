@@ -17,11 +17,15 @@ This plugin was developed by using code samples from the following atom plugins:
 
 ## Issues
 
+- This package doesn't work well when the package tree-view-git-projects is installed.
+- This package doesn't work with multiple projects folders added to the workspace.
 
 ## TODO
 
 - Include option to customize background color of selected items on tree-view.
 - Include icons to show git statuses and icons to quickly add/remove from git index.
+- Review why tree-view-git-projects breaks this package and try to make them compatible.
+- Add support for multiple repos added to the workspace.
 - Add additional test cases.
 
 ## License MIT.
