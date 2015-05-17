@@ -9,6 +9,7 @@ class TreeViewOpenFilesPaneView
     @items = []
     @panes = []
     @activeItem = null
+    @repo = null
     @paneSub = new CompositeDisposable
 
     @element = document.createElement('ul')
@@ -34,17 +35,24 @@ class TreeViewOpenFilesPaneView
       nested.toggleClass('expanded')
       nested.toggleClass('collapsed')
 
+    @loadRepo()
+
     self = this
 
     $(@element).on 'click', '.list-item[is=tree-view-file]', ->
       atom.workspace.open(self.entryForElement(this).item)
 
+  loadRepo: =>
     # TODO: Use getRepositories to support Atom 2.0 when available
-    repo = atom.project.getRepo()
+    self = this
+    @repo = atom.project.getRepo()
+    console.log @repo, 'reloaded repo'
+    if (@repo)
+      @repo.onDidChangeStatuses => self.reloadStatuses self, @repo
+      @repo.onDidChangeStatus (item) => self.reloadStatuses self, @repo
+    else
+      @removeAll()
 
-    if (repo)
-      repo.onDidChangeStatuses => self.reloadStatuses self, repo
-      repo.onDidChangeStatus (item) => self.reloadStatuses self, repo
 
   reloadStatuses: (self, repo) ->
     if repo?

@@ -5,7 +5,7 @@ TreeViewGitModifiedPaneView = require './tree-view-git-modified-pane-view'
 
 module.exports =
 class TreeViewGitModifiedView
-  
+
   constructor: (serializedState) ->
     # Create root element
     @element = document.createElement('div')
@@ -15,6 +15,9 @@ class TreeViewGitModifiedView
 
     @treeViewGitModifiedPaneView = new TreeViewGitModifiedPaneView
     @element.appendChild @treeViewGitModifiedPaneView.element
+
+    @paneSub.add atom.project.onDidChangePaths (path) =>
+      @treeViewGitModifiedPaneView.loadRepo()
 
     @paneSub.add atom.workspace.observePanes (pane) =>
       @treeViewGitModifiedPaneView.setPane pane
