@@ -49,6 +49,7 @@ class TreeViewOpenFilesPaneView
       atom.project.repositoryForDirectory.bind(atom.project))).then (repos) ->
         if (repos.length > 0)
           self.repo = repos[0]
+          self.reloadStatuses self, self.repo
           if (self.repo)
             if self.repo.emitter
               self.repo.onDidChangeStatuses =>
