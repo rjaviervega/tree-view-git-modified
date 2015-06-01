@@ -7,25 +7,47 @@ module.exports =
 class TreeViewGitModifiedView
 
   constructor: (serializedState) ->
+
     # Create root element
     @element = document.createElement('div')
+
     @element.classList.add('tree-view-git-modified')
+
+    @treeViewGitModifiedPaneViewArray = []
 
     @paneSub = new CompositeDisposable
 
-    @treeViewGitModifiedPaneView = new TreeViewGitModifiedPaneView
-    @element.appendChild @treeViewGitModifiedPaneView.element
+    @loadRepos()
 
-    # @paneSub.add atom.project.onDidChangePaths (path) =>
-    #   @treeViewGitModifiedPaneView.loadRepo()
+    @paneSub.add atom.project.onDidChangePaths (path) =>
+        @loadRepos()
 
-    @paneSub.add atom.workspace.observePanes (pane) =>
-      @treeViewGitModifiedPaneView.setPane pane
+    # @paneSub.add atom.workspace.observePanes (pane) =>
+    #   @treeViewGitModifiedPaneView.setPane pane
       # TODO: Implement tear down on pane destroy subscription if needed (TBD)
       # destroySub = pane.onDidDestroy =>
       #   destroySub.dispose()
       #   @removeTabGroup pane
       # @paneSub.add destroySub
+
+  loadRepos: ->
+    self = this
+
+    # Remove all existing panels
+    for tree in @treeViewGitModifiedPaneViewArray
+        tree.destroy()
+
+    Promise.all(atom.project.getDirectories().map(
+      atom.project.repositoryForDirectory.bind(atom.project))).then (repos) ->
+        for repo in repos
+            treeViewGitModifiedPaneView = new TreeViewGitModifiedPaneView repo
+            treeViewGitModifiedPaneView.setRepo repo
+            self.treeViewGitModifiedPaneViewArray.push treeViewGitModifiedPaneView
+            self.element.appendChild treeViewGitModifiedPaneView.element
+
+            self.paneSub.add atom.workspace.observePanes (pane) =>
+                treeViewGitModifiedPaneView.setPane pane
+
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
@@ -49,7 +71,7 @@ class TreeViewGitModifiedView
     @element.remove()
 
   show: ->
-    @treeViewGitModifiedPaneView.loadRepo()
+    # @treeViewGitModifiedPaneView.loadRepo()
     requirePackages('tree-view').then ([treeView]) =>
       treeView.treeView.find('.tree-view-scroller').css 'background', treeView.treeView.find('.tree-view').css 'background'
       treeView.treeView.prepend @element
