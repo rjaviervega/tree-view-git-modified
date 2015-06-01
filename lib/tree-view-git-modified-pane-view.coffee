@@ -35,7 +35,7 @@ class TreeViewOpenFilesPaneView
       nested.toggleClass('expanded')
       nested.toggleClass('collapsed')
 
-    @loadRepo()
+    # @loadRepo()
 
     self = this
 
@@ -43,22 +43,21 @@ class TreeViewOpenFilesPaneView
       atom.workspace.open(self.entryForElement(this).item)
 
   loadRepo: =>
-    # TODO: Use getRepositories to support Atom 2.0 when available
     self = this
     Promise.all(atom.project.getDirectories().map(
       atom.project.repositoryForDirectory.bind(atom.project))).then (repos) ->
         if (repos.length > 0)
-          self.repo = repos[0]
-          self.reloadStatuses self, self.repo
-          if (self.repo)
-            if self.repo.emitter
-              self.repo.onDidChangeStatuses =>
-                self.reloadStatuses self, self.repo
+          repo = repos[0]
+          self.reloadStatuses self, repo
+          if (repo)
+            if repo.emitter
+              repo.onDidChangeStatuses =>
+                self.reloadStatuses self, repo
                 , (err) ->
                   console.log err
-            if self.repo.emitter
-              self.repo.onDidChangeStatus (item) =>
-                self.reloadStatuses self, self.repo
+            if repo.emitter
+              repo.onDidChangeStatus (item) =>
+                self.reloadStatuses self, repo
                 , (err) ->
                   console.log err
           else
@@ -77,7 +76,7 @@ class TreeViewOpenFilesPaneView
         if repo.isPathModified(filePath)
           self.addItem filePath, 'status-modified'
         if repo.isPathNew(filePath)
-          self.addItem filePath, 'status-added'
+          self.addItem filePath, 'status-new'
 
   setPane: (pane) ->
     @paneSub.add pane.observeActiveItem (item) =>
@@ -107,6 +106,19 @@ class TreeViewOpenFilesPaneView
       listItemName.setAttribute('data-path', item)
       listItemName.setAttribute('data-name', item)
       listItem.appendChild listItemName
+
+      listItemStatus = document.createElement('span')
+
+      if (status == 'status-modified')
+        listItemStatus.innerText = 'M'
+
+      if (status == 'status-new')
+        listItemStatus.innerText = 'N'
+
+      listItemStatus.classList.add('pull-right')
+
+      listItem.appendChild listItemStatus
+
       @container.appendChild listItem
 
       @items.push item: item, element: listItem
