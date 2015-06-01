@@ -71,7 +71,6 @@ class TreeViewGitModifiedView
     @element.remove()
 
   show: ->
-    # @treeViewGitModifiedPaneView.loadRepo()
     requirePackages('tree-view').then ([treeView]) =>
       treeView.treeView.find('.tree-view-scroller').css 'background', treeView.treeView.find('.tree-view').css 'background'
       treeView.treeView.prepend @element

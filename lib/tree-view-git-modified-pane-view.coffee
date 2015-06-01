@@ -25,7 +25,7 @@ class TreeViewOpenFilesPaneView
     header.classList.add('list-item')
 
     headerSpan = document.createElement('span')
-    headerSpan.classList.add('name', 'icon', 'icon-file-directory')
+    headerSpan.classList.add('name', 'icon', 'icon-mark-github')
     headerSpan.setAttribute('data-name', 'Git Modified: ' + repoName)
     headerSpan.innerText = 'Git Modified: ' + repoName
     header.appendChild headerSpan
@@ -39,12 +39,10 @@ class TreeViewOpenFilesPaneView
       nested.toggleClass('collapsed')
 
     # @loadRepo()
-
     self = this
 
     $(@element).on 'click', '.list-item[is=tree-view-file]', ->
       atom.workspace.open(self.entryForElement(this).item)
-
 
   setRepo: (repo) ->
     self = this
@@ -91,8 +89,6 @@ class TreeViewOpenFilesPaneView
   #         self.removeAll()
   #     , (err) ->
   #       console.log err
-
-
 
   reloadStatuses: (self, repo) ->
     if repo?
