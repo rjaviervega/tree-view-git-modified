@@ -91,7 +91,10 @@ class TreeViewOpenFilesPaneView
   #       console.log err
 
   reloadStatuses: (self, repo) ->
-    if repo?
+    if self.isReloading
+      console.warn 'Already performing reloadStatuses -- skipping this one!'
+    else if repo?
+      self.isReloading = true
       self.removeAll()
       repoPath = repo.repo.workingDirectory
       for filePath of repo.statuses
@@ -99,6 +102,7 @@ class TreeViewOpenFilesPaneView
           self.addItem filePath, repoPath, 'status-modified'
         if repo.isPathNew(filePath)
           self.addItem filePath, repoPath, 'status-new'
+      self.isReloading = false
 
   setPane: (pane) ->
     @paneSub.add pane.observeActiveItem (item) =>
