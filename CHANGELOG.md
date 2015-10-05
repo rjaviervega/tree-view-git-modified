@@ -1,3 +1,7 @@
+## 0.5.11
+* Merged Avoid duplicate entries by (simon04)
+* Merged Using default theme background color on selected file by (Skoda)
+
 ## 0.5.10
 * Added support for multiple project folders
 * Changed tree icon to github icon
