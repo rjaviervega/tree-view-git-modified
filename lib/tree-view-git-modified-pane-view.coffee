@@ -15,25 +15,23 @@ class TreeViewOpenFilesPaneView
     repoPath = repo.repo.workingDirectory
     repoName = repoPath.split('/')[repoPath.split('/').length-1]
 
-    @element = document.createElement('ul')
-    @element.classList.add('tree-view', 'list-tree', 'has-collapsable-children', 'focusable-panel')
-    nested = document.createElement('li')
-    nested.classList.add('list-nested-item', 'expanded')
-    @container = document.createElement('ul')
-    @container.classList.add('list-tree')
-    header = document.createElement('div')
-    header.classList.add('list-item')
+    @element = document.createElement('li')
+    @element.setAttribute('is', 'tree-view-git-modified')
+    @element.classList.add('tree-view-git-modified', 'list-nested-item', 'expanded')
+    @container = document.createElement('ol')
+    @container.classList.add('entries', 'list-tree')
+    @header = document.createElement('div')
+    @header.classList.add('header', 'list-item')
 
     headerSpan = document.createElement('span')
     headerSpan.classList.add('name', 'icon', 'icon-mark-github')
     headerSpan.setAttribute('data-name', 'Git Modified: ' + repoName)
     headerSpan.innerText = 'Git Modified: ' + repoName
-    header.appendChild headerSpan
-    nested.appendChild header
-    nested.appendChild @container
-    @element.appendChild nested
+    @header.appendChild headerSpan
+    @element.appendChild @header
+    @element.appendChild @container
 
-    $(@element).on 'click', '.list-nested-item > .list-item', ->
+    $(@header).on 'click', ->
       nested = $(this).closest('.list-nested-item')
       nested.toggleClass('expanded')
       nested.toggleClass('collapsed')
@@ -194,6 +192,12 @@ class TreeViewOpenFilesPaneView
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
+
+  hide: ->
+    @element.classList.add 'hidden'
+
+  show: ->
+    @element.classList.remove 'hidden'
 
   # Tear down any state and detach
   destroy: ->
