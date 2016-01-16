@@ -9,9 +9,7 @@ class TreeViewGitModifiedView
   constructor: (serializedState) ->
 
     # Create root element
-    @element = document.createElement('div')
-
-    @element.classList.add('tree-view-git-modified')
+    @element = document.createElement('li')
 
     @treeViewGitModifiedPaneViewArray = []
 
@@ -20,7 +18,7 @@ class TreeViewGitModifiedView
     @loadRepos()
 
     @paneSub.add atom.project.onDidChangePaths (path) =>
-        @loadRepos()
+      @loadRepos()
 
     # @paneSub.add atom.workspace.observePanes (pane) =>
     #   @treeViewGitModifiedPaneView.setPane pane
@@ -35,11 +33,18 @@ class TreeViewGitModifiedView
 
     # Remove all existing panels
     for tree in @treeViewGitModifiedPaneViewArray
-        tree.destroy()
+      tree.hide()
 
     Promise.all(atom.project.getDirectories().map(
       atom.project.repositoryForDirectory.bind(atom.project))).then (repos) ->
         for repo in repos
+          if repo.repo == null
+            for tree in self.treeViewGitModifiedPaneViewArray
+              if repo.path == tree.repo.path
+                tree.show()
+              console.log(tree)
+          else
+            console.log(repo)
             treeViewGitModifiedPaneView = new TreeViewGitModifiedPaneView repo
             treeViewGitModifiedPaneView.setRepo repo
             self.treeViewGitModifiedPaneViewArray.push treeViewGitModifiedPaneView
@@ -73,4 +78,5 @@ class TreeViewGitModifiedView
   show: ->
     requirePackages('tree-view').then ([treeView]) =>
       treeView.treeView.find('.tree-view-scroller').css 'background', treeView.treeView.find('.tree-view').css 'background'
-      treeView.treeView.prepend @element
+      parentElement = treeView.treeView.element.querySelector('.tree-view-scroller .tree-view')
+      parentElement.insertBefore(@element, parentElement.firstChild)
