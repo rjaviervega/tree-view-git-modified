@@ -1,7 +1,7 @@
 {
   "name": "tree-view-git-modified",
   "main": "./lib/tree-view-git-modified",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "View all git modified files on top of your tree-view panel.",
   "repository": "https://github.com/rjaviervega/tree-view-git-modified",
   "license": "MIT",
