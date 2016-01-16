@@ -42,9 +42,7 @@ class TreeViewGitModifiedView
             for tree in self.treeViewGitModifiedPaneViewArray
               if repo.path == tree.repo.path
                 tree.show()
-              console.log(tree)
           else
-            console.log(repo)
             treeViewGitModifiedPaneView = new TreeViewGitModifiedPaneView repo
             treeViewGitModifiedPaneView.setRepo repo
             self.treeViewGitModifiedPaneViewArray.push treeViewGitModifiedPaneView
