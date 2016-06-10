@@ -37,19 +37,21 @@ class TreeViewGitModifiedView
 
     Promise.all(atom.project.getDirectories().map(
       atom.project.repositoryForDirectory.bind(atom.project))).then (repos) ->
-        for repo in repos
-          if repo.repo == null
-            for tree in self.treeViewGitModifiedPaneViewArray
-              if repo.path == tree.repo.path
-                tree.show()
-          else
-            treeViewGitModifiedPaneView = new TreeViewGitModifiedPaneView repo
-            treeViewGitModifiedPaneView.setRepo repo
-            self.treeViewGitModifiedPaneViewArray.push treeViewGitModifiedPaneView
-            self.element.appendChild treeViewGitModifiedPaneView.element
+        for repository in repos
+          if repository?
+            repo = repository.repo
+            if repo == null
+              for tree in self.treeViewGitModifiedPaneViewArray
+                if repo.path == tree.repo.path
+                  tree.show()
+            else
+              treeViewGitModifiedPaneView = new TreeViewGitModifiedPaneView repo
+              treeViewGitModifiedPaneView.setRepo repo
+              self.treeViewGitModifiedPaneViewArray.push treeViewGitModifiedPaneView
+              self.element.appendChild treeViewGitModifiedPaneView.element
 
-            self.paneSub.add atom.workspace.observePanes (pane) =>
-                treeViewGitModifiedPaneView.setPane pane
+              self.paneSub.add atom.workspace.observePanes (pane) =>
+                  treeViewGitModifiedPaneView.setPane pane
 
 
   # Returns an object that can be retrieved when package is activated

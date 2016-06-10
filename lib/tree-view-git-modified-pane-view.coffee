@@ -12,7 +12,7 @@ class TreeViewOpenFilesPaneView
     @repo = repo
     @paneSub = new CompositeDisposable
 
-    repoPath = repo.repo.workingDirectory
+    repoPath = repo.workingDirectory
     repoName = repoPath.split('/')[repoPath.split('/').length-1]
 
     @element = document.createElement('li')
@@ -94,8 +94,8 @@ class TreeViewOpenFilesPaneView
     else if repo?
       self.isReloading = true
       self.removeAll()
-      repoPath = repo.repo.workingDirectory
-      for filePath of repo.statuses
+      repoPath = repo.workingDirectory
+      for filePath in Object.keys(repo.getStatus())
         if repo.isPathModified(filePath)
           self.addItem filePath, repoPath, 'status-modified'
         if repo.isPathNew(filePath)

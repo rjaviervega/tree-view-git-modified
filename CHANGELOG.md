@@ -1,3 +1,6 @@
+## 0.6.3 
+* Updated repository access to work properly with Atom 1.8.0
+
 ## 0.5.11
 * Merged Avoid duplicate entries by (simon04)
 * Merged Using default theme background color on selected file by (Skoda)
