@@ -7,26 +7,13 @@ module.exports =
 class TreeViewGitModifiedView
 
   constructor: (serializedState) ->
-
     # Create root element
     @element = document.createElement('li')
-
     @treeViewGitModifiedPaneViewArray = []
-
     @paneSub = new CompositeDisposable
-
     @loadRepos()
-
     @paneSub.add atom.project.onDidChangePaths (path) =>
       @loadRepos()
-
-    # @paneSub.add atom.workspace.observePanes (pane) =>
-    #   @treeViewGitModifiedPaneView.setPane pane
-      # TODO: Implement tear down on pane destroy subscription if needed (TBD)
-      # destroySub = pane.onDidDestroy =>
-      #   destroySub.dispose()
-      #   @removeTabGroup pane
-      # @paneSub.add destroySub
 
   loadRepos: ->
     self = this
@@ -35,27 +22,20 @@ class TreeViewGitModifiedView
     for tree in @treeViewGitModifiedPaneViewArray
       tree.hide()
 
-    Promise.all(atom.project.getDirectories().map(
-      atom.project.repositoryForDirectory.bind(atom.project))).then (repos) ->
-        for repository in repos
-          if repository?
-            repo = repository.repo
-            if repo == null
-              for tree in self.treeViewGitModifiedPaneViewArray
-                if repo.path == tree.repo.path
-                  tree.show()
-            else
-              treeViewGitModifiedPaneView = new TreeViewGitModifiedPaneView repo
-              treeViewGitModifiedPaneView.setRepo repo
-              self.treeViewGitModifiedPaneViewArray.push treeViewGitModifiedPaneView
-              self.element.appendChild treeViewGitModifiedPaneView.element
+    repos = atom.project.getRepositories()
+    for repo in repos
+      if repo == null
+        for tree in self.treeViewGitModifiedPaneViewArray
+          if repo.path == tree.repo.path
+            tree.show()
+      else
+        treeViewGitModifiedPaneView = new TreeViewGitModifiedPaneView repo
+        treeViewGitModifiedPaneView.setRepo repo
+        self.treeViewGitModifiedPaneViewArray.push treeViewGitModifiedPaneView
+        self.element.appendChild treeViewGitModifiedPaneView.element
 
-              self.paneSub.add atom.workspace.observePanes (pane) =>
-                  treeViewGitModifiedPaneView.setPane pane
-
-
-  # Returns an object that can be retrieved when package is activated
-  serialize: ->
+        self.paneSub.add atom.workspace.observePanes (pane) =>
+            treeViewGitModifiedPaneView.setPane pane
 
   # Tear down any state and detach
   destroy: ->

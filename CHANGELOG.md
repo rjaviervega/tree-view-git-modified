@@ -1,4 +1,4 @@
-## 0.6.3 
+## 0.6.4
 * Updated repository access to work properly with Atom 1.8.0
 
 ## 0.5.11

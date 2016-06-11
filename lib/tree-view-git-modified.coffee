@@ -67,16 +67,9 @@ module.exports = TreeViewGitModified =
 
   openAll: ->
     self = this
-    Promise.all(atom.project.getDirectories().map(
-      atom.project.repositoryForDirectory.bind(atom.project))).then (repos) ->
-        if (repos.length > 0)
-          for repository in repos
-            if repository?
-              repo = repository.repo
-              for filePath in Object.keys(repo.getStatus())
-                  if repo.isPathModified(filePath) or repo.isPathNew(filePath)
-                      atom.workspace.open(repo.workingDirectory + '/' + filePath)
-         else
-            atom.beep()
-      , (err) ->
-        console.log err
+    repos = atom.project.getRepositories()
+    for repo in repos
+      innerRepo = repo.repo
+      for filePath in Object.keys(innerRepo.getStatus())
+          if innerRepo.isPathModified(filePath) or innerRepo.isPathNew(filePath)
+              atom.workspace.open(innerRepo.getWorkingDirectory() + '/' + filePath)

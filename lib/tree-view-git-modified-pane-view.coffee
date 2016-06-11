@@ -12,7 +12,7 @@ class TreeViewOpenFilesPaneView
     @repo = repo
     @paneSub = new CompositeDisposable
 
-    repoPath = repo.workingDirectory
+    repoPath = repo.getWorkingDirectory()
     repoName = repoPath.split('/')[repoPath.split('/').length-1]
 
     @element = document.createElement('li')
@@ -46,47 +46,17 @@ class TreeViewOpenFilesPaneView
     self = this
     @repo = repo
     @reloadStatuses self, repo
-    if (repo)
-      if repo.emitter
-        repo.onDidChangeStatuses =>
-          self.reloadStatuses self, repo
-          , (err) ->
-            console.log err
-      if repo.emitter
-        repo.onDidChangeStatus (item) =>
-          self.reloadStatuses self, repo
-          , (err) ->
-            console.log err
+    if (repo.onDidChangeStatuses? or repo.onDidChangeStatus?)
+      repo.onDidChangeStatuses =>
+        self.reloadStatuses self, repo
+        , (err) ->
+          console.log err
+      repo.onDidChangeStatus (item) =>
+        self.reloadStatuses self, repo
+        , (err) ->
+          console.log err
     else
       self.removeAll()
-
-  # loadRepo: =>
-  #     @setRepo @repo
-
-  # loadRepo: =>
-  #   self = this
-  #   Promise.all(atom.project.getDirectories().map(
-  #     atom.project.repositoryForDirectory.bind(atom.project))).then (repos) ->
-  #       if (repos.length > 0)
-  #         repo = repos[0]
-  #         self.reloadStatuses self, repo
-  #         if (repo)
-  #           if repo.emitter
-  #             repo.onDidChangeStatuses =>
-  #               self.reloadStatuses self, repo
-  #               , (err) ->
-  #                 console.log err
-  #           if repo.emitter
-  #             repo.onDidChangeStatus (item) =>
-  #               self.reloadStatuses self, repo
-  #               , (err) ->
-  #                 console.log err
-  #         else
-  #           self.removeAll()
-  #       else
-  #         self.removeAll()
-  #     , (err) ->
-  #       console.log err
 
   reloadStatuses: (self, repo) ->
     if self.isReloading
@@ -94,9 +64,10 @@ class TreeViewOpenFilesPaneView
     else if repo?
       self.isReloading = true
       self.removeAll()
-      repoPath = repo.workingDirectory
-      for filePath in Object.keys(repo.getStatus())
-        if repo.isPathModified(filePath)
+      repoPath = repo.getWorkingDirectory()
+      innerRepo = repo.getRepo()
+      for filePath in Object.keys(innerRepo.getStatus())
+        if innerRepo.isPathModified(filePath)
           self.addItem filePath, repoPath, 'status-modified'
         if repo.isPathNew(filePath)
           self.addItem filePath, repoPath, 'status-new'
