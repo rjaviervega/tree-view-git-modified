@@ -48,7 +48,7 @@ module.exports = TreeViewGitModified =
 
   serialize: ->
     isVisible: @isVisible
-    treeViewGitModifiedViewState: @treeViewGitModifiedView.serialize()
+    # treeViewGitModifiedViewState: @treeViewGitModifiedView.serialize()
 
   toggle: ->
     if @isVisible

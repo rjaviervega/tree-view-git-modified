@@ -1,3 +1,6 @@
+## 0.6.5
+* Disabled serialize state to avoid errors on console
+
 ## 0.6.4
 * Updated repository access to work properly with Atom 1.8.0
 
