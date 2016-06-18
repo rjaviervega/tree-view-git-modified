@@ -1,4 +1,4 @@
-## 0.6.5
+## 0.7.1
 * Disabled serialize state to avoid errors on console
 
 ## 0.6.4
