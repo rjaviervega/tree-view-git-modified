@@ -1,3 +1,6 @@
+## 0.7.2
+* Fix errors after Atom API updates
+
 ## 0.7.1
 * Disabled serialize state to avoid errors on console
 

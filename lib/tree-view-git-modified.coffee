@@ -24,23 +24,29 @@ module.exports = TreeViewGitModified =
     @subscriptions.add atom.project.onDidChangePaths (path) =>
       @show()
 
-    requirePackages('tree-view').then ([treeView]) =>
-      if (!@treeViewGitModifiedView)
-        @treeViewGitModifiedView = new TreeViewGitModifiedView
+    atom.packages.activatePackage('tree-view').then((pkg) =>
 
-      if (treeView.treeView && @isVisible) or (@isVisible is undefined)
-        @treeViewGitModifiedView.show()
+      if pkg && pkg.mainModule && pkg.mainModule.treeView
 
-      atom.commands.add 'atom-workspace', 'tree-view:toggle', =>
-        if treeView.treeView?.is(':visible')
-          @treeViewGitModifiedView.hide()
-        else
+        treeView = pkg.mainModule.treeView
+        if (!@treeViewGitModifiedView)
+          @treeViewGitModifiedView = new TreeViewGitModifiedView
+
+        if (treeView && @isVisible) or (@isVisible is undefined)
+          @treeViewGitModifiedView.show()
+
+        atom.commands.add 'atom-workspace', 'tree-view:toggle', =>
+          if treeView?.isVisible()
+            @treeViewGitModifiedView.hide()
+          else
+            if @isVisible
+              @treeViewGitModifiedView.show()
+
+        atom.commands.add 'atom-workspace', 'tree-view:show', =>
           if @isVisible
             @treeViewGitModifiedView.show()
+    , null)
 
-      atom.commands.add 'atom-workspace', 'tree-view:show', =>
-        if @isVisible
-          @treeViewGitModifiedView.show()
 
   deactivate: ->
     @subscriptions.dispose()
