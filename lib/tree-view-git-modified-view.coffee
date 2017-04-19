@@ -56,7 +56,11 @@ class TreeViewGitModifiedView
     @element.remove()
 
   show: ->
-    requirePackages('tree-view').then ([treeView]) =>
-      treeView.treeView.find('.tree-view-scroller').css 'background', treeView.treeView.find('.tree-view').css 'background'
-      parentElement = treeView.treeView.element.querySelector('.tree-view-scroller .tree-view')
-      parentElement.insertBefore(@element, parentElement.firstChild)
+    atom.packages.activatePackage('tree-view').then((pkg) =>
+      if pkg && pkg.mainModule && pkg.mainModule.treeView
+        treeView = pkg.mainModule.treeView
+        if treeView
+          treeView.element.querySelector('.tree-view-scroller').style.background = treeView.element.querySelector('.tree-view').style.background
+          parentElement = treeView.element.querySelector('.tree-view-scroller .tree-view')
+          parentElement.insertBefore(@element, parentElement.firstChild)
+    )
