@@ -60,7 +60,8 @@ class TreeViewGitModifiedView
       if pkg && pkg.mainModule && pkg.mainModule.treeView
         treeView = pkg.mainModule.treeView
         if treeView
-          treeView.element.querySelector('.tree-view-scroller').style.background = treeView.element.querySelector('.tree-view').style.background
-          parentElement = treeView.element.querySelector('.tree-view-scroller .tree-view')
+          #treeView.element.querySelector('.tree-view-scroller').style.background = treeView.element.querySelector('.tree-view').style.background
+          #parentElement = treeView.element.querySelector('.tree-view-scroller .tree-view')
+          parentElement = treeView.element.querySelector('.full-menu.list-tree')
           parentElement.insertBefore(@element, parentElement.firstChild)
     )
