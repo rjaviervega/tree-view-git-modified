@@ -1,3 +1,6 @@
+## 0.7.3
+* Fix #22 bug on atom 1.18.0 (File list failing to display after Atom 1.17 update.)
+
 ## 0.7.2
 * Fix errors after Atom API updates
 
